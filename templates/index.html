@@ -32,12 +32,14 @@
     <div class="row">
         <div class="col-8">
           <h1>DNF Music Generator</h1>
-
+          <img id="pianorollimg" src="imgs/pianorolls/current.png" alt="pianorolls" class="img-thumbnail">
     
         </div>
         <div class="col-4">
-          <input id="slider1"  type="text" data-slider-min="0" data-slider-max="1" data-slider-step="0.01" data-slider-value="0.5"/>
-<span id="ex6CurrentSliderValLabel"><span id="slider1-v">0.5</span></span>
+          <span id="slider1">
+            <input id="slider1-inp"  type="text" data-slider-min="-1" data-slider-max="1" data-slider-step="0.001" data-slider-value="{{z0}}"/>
+            <span id="ex6CurrentSliderValLabel"><span id="slider1-v">{{z0}}</span></span>
+          </span>
         </div>
     </div>
     
@@ -48,7 +50,7 @@
 
   <!-- ============= Dependencies ================== -->
   <!-- Bootstrap & jQ-->
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   <!-- bootstrap-slider -->
@@ -58,12 +60,20 @@
   <!--<script src="../js/slider.js"></script>-->
   <script>
   $(document).ready(function(){
-
-    var slider = new Slider("#slider1");
+    // Doc: https://github.com/seiyria/bootstrap-slider
+    // Ex: https://seiyria.com/bootstrap-slider/
+    var slider = new Slider("#slider1-inp");
     slider.on("slide", function(sliderValue) {
         document.getElementById("slider1-v").textContent = sliderValue;
     });
-  })
+    slider.on("slideStop", function() {
+        $.post("onchange", {value: slider.getValue()})
+            .done(function( data ) {
+              $("#pianorollimg").attr("src", "imgs/pianorolls/current.png?"+Date.now());
+            });
+    });
+      
+  });
   </script>
 
 </html>

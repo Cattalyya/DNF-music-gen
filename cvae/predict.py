@@ -9,7 +9,7 @@ import numpy as np
 
 import piano_roll_utils
 import utils
-import cvae
+import model as cvae
 
 # Device configuration
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -28,5 +28,5 @@ initial_z = torch.Tensor([[-0.2945, -0.5343, -0.3924,  0.1169, -0.1280,  0.0468,
 decoded_val = model.decode(initial_z)
 tmp = piano_roll_utils.piano_roll_from_prob(decoded_val)
 
-tmp_filename = 'tmp/tmp.png'
+tmp_filename = 'imgs/current.png'
 save_image(tmp, tmp_filename)
