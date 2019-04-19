@@ -1,5 +1,6 @@
 # my ignore
 tmp/
+react-front/node_modules
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
