@@ -17,6 +17,10 @@ def send_js(path):
 def send_css(path):
     return send_from_directory('css', path)
 
+@app.route('/static/<path:path>')
+def send_static(path):
+    return send_from_directory('static', path)
+
 @app.route('/imgs/pianorolls/<path:path>')
 def send_imgs_pianorolls(path):
     return send_from_directory('cvae/imgs', path)

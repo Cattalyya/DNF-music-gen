@@ -3,12 +3,14 @@
 <head>
     <!-- ============= CSS Dependencies ================== -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.1/css/bootstrap-slider.min.css">
+    <!-- Slider -->
+    <link rel="stylesheet" href="https://unpkg.com/react-rangeslider/umd/rangeslider.min.css" />
 
     <!-- ============= Custom CSS ================== -->
     <!-- Slider -->
     <link rel="stylesheet" type="text/css" href="../css/slider.css">
     <link rel="stylesheet" type="text/css" href="../css/main.css">
+
 
 </head>
 <body>
@@ -36,10 +38,7 @@
     
         </div>
         <div class="col-4">
-          <span id="slider1">
-            <input id="slider1-inp"  type="text" data-slider-min="-1" data-slider-max="1" data-slider-step="0.001" data-slider-value="{{z0}}"/>
-            <span id="ex6CurrentSliderValLabel"><span id="slider1-v">{{z0}}</span></span>
-          </span>
+          <div id="latent-space-sliders"></div>
         </div>
     </div>
     
@@ -53,27 +52,16 @@
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-  <!-- bootstrap-slider -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.1/bootstrap-slider.min.js"></script>
+  <script data-main="../js/slider.js" src="../js/require.js"></script>
 
+  <!-- React -->
+  <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  <script src="https://unpkg.com/react-rangeslider/umd/rangeslider.min.js"></script>   
   <!-- ============= Custom Scripts ================== -->
-  <!--<script src="../js/slider.js"></script>-->
-  <script>
-  $(document).ready(function(){
-    // Doc: https://github.com/seiyria/bootstrap-slider
-    // Ex: https://seiyria.com/bootstrap-slider/
-    var slider = new Slider("#slider1-inp");
-    slider.on("slide", function(sliderValue) {
-        document.getElementById("slider1-v").textContent = sliderValue;
-    });
-    slider.on("slideStop", function() {
-        $.post("onchange", {value: slider.getValue()})
-            .done(function( data ) {
-              $("#pianorollimg").attr("src", "imgs/pianorolls/current.png?"+Date.now());
-            });
-    });
-      
-  });
-  </script>
+  
+ <!-- <script type="text/babel" src="../js/slider.js"></script>-->
+
 
 </html>
