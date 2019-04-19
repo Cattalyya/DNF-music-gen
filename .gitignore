@@ -1,6 +1,8 @@
 # my ignore
 tmp/
-react-front/node_modules
+react-front/node_modules/
+flask-back/templates/
+flask-back/static/react/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
