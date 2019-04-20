@@ -20,3 +20,4 @@ DeepNeuro Feedback Music Generator
 ## Useful
 ### Github
 - [Ignore files in past commits](https://stackoverflow.com/questions/7527982/applying-gitignore-to-committed-files)
+    - `git ls-files -ci --exclude-standard`, `git ls-files -ci --exclude-standard -z | xargs -0 git rm --cached`

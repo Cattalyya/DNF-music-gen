@@ -4,6 +4,7 @@ import './css/index.css';
 import './css/main.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import App from './js/App';
+import PredictedImage from './js/PredictedImage';
 import * as serviceWorker from './serviceWorker';
 import Slider from 'rc-slider';
 import Tooltip from 'rc-tooltip';
@@ -12,8 +13,6 @@ import request from 'request'
 // import Slider from 'rc-slider/lib/Slider';
 // import Range from 'rc-slider/lib/Range';
 import 'rc-slider/assets/index.css';
-
-
 
 const Handle = Slider.Handle;
 
@@ -24,7 +23,11 @@ var alertVal = function(value){
           body: "value=" + value,
         }, 
         function(error, response, body){
-          // TODO: $("#pianorollimg").attr("src", "imgs/pianorolls/current.png?"+Date.now());
+            if (window.predictedImage) {
+                window.predictedImage.setState({
+                    latest_update: Date.now(),
+                })
+            }
         }
     );
 }
@@ -54,6 +57,11 @@ ReactDOM.render(
         defaultValue={parseFloat(window.z0)} />
   </div>,
   document.getElementById('latent-space-sliders')
+);
+
+ReactDOM.render(
+  <PredictedImage src="imgs/pianorolls/current.png" />,
+  document.getElementById('pianorollimg-div')
 );
 
 
