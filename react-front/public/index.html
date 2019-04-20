@@ -33,7 +33,12 @@
     </div>
     
   </div>
-  <script>window.z0 = "{{z0}}"</script>
+  <script>
+        const zs = "{{zs}}";
+        console.log("Zs:", zs);
+        window.zs = zs.substring(1, zs.length-1).split(",").map(parseFloat);
+        console.log(window.zs);
+  </script>
 
 </body>
 

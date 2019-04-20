@@ -33,7 +33,7 @@ class MusicGen:
         self.refresh_z()
 
     def get_z(self):
-        return np.array(self.z)
+        return np.array(self.z[0])
 
     # z[i] = val
     def update_z_i(self, i, val):

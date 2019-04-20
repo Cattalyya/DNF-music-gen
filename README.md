@@ -21,3 +21,8 @@ DeepNeuro Feedback Music Generator
 ### Github
 - [Ignore files in past commits](https://stackoverflow.com/questions/7527982/applying-gitignore-to-committed-files)
     - `git ls-files -ci --exclude-standard`, `git ls-files -ci --exclude-standard -z | xargs -0 git rm --cached`
+
+## TODOs
+* [ ] switch to 16d-latent-space model
+* [ ] show current value of each slider
+* [ ] make only one axis label for all sliders

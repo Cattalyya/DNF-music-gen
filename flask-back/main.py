@@ -5,8 +5,10 @@ app = Flask("__main__")
 musicgen = MusicGen()
 
 @app.route("/")
-def my_index():
-    return render_template("index.html", z0="0.4")
+def index():
+    default_z_arr_str = list(musicgen.get_z())
+    print("Default Z: ", default_z_arr_str)
+    return render_template("index.html", zs=default_z_arr_str)
     
 @app.route('/imgs/pianorolls/<path:path>')
 def send_imgs_pianorolls(path):
@@ -14,9 +16,10 @@ def send_imgs_pianorolls(path):
 
 @app.route('/onchange', methods=["POST"])
 def on_change_val():
-    to_val = float(request.form["value"])
-    print(request.form["value"], to_val)
-    musicgen.update_z_i(0, to_val)
+    to_val = float(request.form["value"]);
+    z_id = int(request.form["z_id"])
+    print("Update: z[{}]={}".format(z_id, to_val))
+    musicgen.update_z_i(z_id, to_val)
     return "TODO"
 
 app.run(debug=True)

@@ -16,11 +16,11 @@ import 'rc-slider/assets/index.css';
 
 const Handle = Slider.Handle;
 
-var alertVal = function(value){
+var changeZ = function(value, z_id){
     request.post(
         {
-          url: 'http://127.0.0.1:5000/onchange',
-          body: "value=" + value,
+          url:    'http://127.0.0.1:5000/onchange',
+          form:   { value: value, z_id: z_id },
         }, 
         function(error, response, body){
             if (window.predictedImage) {
@@ -50,11 +50,15 @@ const showTooltip = (props) => {
 
 ReactDOM.render(
   <div>
-    <Slider 
+    {[...Array(16).keys()].map((item, index) => (
+      <Slider 
         min={-1} max={1} step={0.01} marks={{ 0: 0, 1:1, "-1": "-1"}} 
         handle={showTooltip} 
-        onAfterChange={alertVal} 
-        defaultValue={parseFloat(window.z0)} />
+        onAfterChange={value => changeZ(value, index)} 
+        defaultValue={window.zs[index]}
+        key={index}  />
+      ))
+    }
   </div>,
   document.getElementById('latent-space-sliders')
 );
@@ -64,6 +68,7 @@ ReactDOM.render(
   document.getElementById('pianorollimg-div')
 );
 
+// console.log("AFTER RENDER:", window.zs);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
