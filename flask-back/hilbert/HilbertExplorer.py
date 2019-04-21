@@ -78,9 +78,9 @@ class HilbertExplorer:
         self.t = t
         self.dist = self._calDistFromT(self.t)
         
-    def updateT_step(self):
-        self.t = self.t+(1/(2**(self.p+10)))
-        return (self.t)
+    def T_step(self):
+        #self.t = self.t+(1/(2**(self.p+10)))
+        return (1/2**(self.p+5))
     
     def _calDistFromT(self, t):
         dist = (int(t * pow(10,10)) * (2 ** (self.n * self.p) - 1)) // pow(10,10)
