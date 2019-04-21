@@ -16,6 +16,9 @@ import 'rc-slider/assets/index.css';
 
 const Handle = Slider.Handle;
 
+
+const LATENT_SPACE_DIM = 32;
+
 var changeZ = function(value, z_id){
     request.post(
         {
@@ -50,7 +53,7 @@ const showTooltip = (props) => {
 
 ReactDOM.render(
   <div>
-    {[...Array(16).keys()].map((item, index) => (
+    {[...Array(LATENT_SPACE_DIM).keys()].map((item, index) => (
       <Slider 
         min={-1} max={1} step={0.01} marks={{ 0: 0, 1:1, "-1": "-1"}} 
         handle={showTooltip} 

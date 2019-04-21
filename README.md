@@ -2,7 +2,7 @@
 DeepNeuro Feedback Music Generator
 
 ## User Guide
-## Usage 
+## Setup 
 - In Frontend `cd react-front`
     - `npm install`
     - `npm run build` 
