@@ -54,6 +54,7 @@ class MusicGen:
         self.p = 1
         # Get t from self.z, p
         self.t = "TODO"
+        self.hilbert_step = 1
 
     def get_z(self):
         return np.array(self.z[0])
