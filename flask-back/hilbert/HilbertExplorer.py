@@ -12,7 +12,7 @@ class HilbertExplorer:
     dist = '1'
     '''
 
-    def __init__(self, n, l=None, rho=1):
+    def __init__(self, n, p=1, l=None, rho=1, latent=None):
         '''Intialize Hiblert tExplorer with:
         Args:
             n: Dimension of explored spapce
@@ -20,10 +20,20 @@ class HilbertExplorer:
             Size of Explored Space: [-l, l]^ N
             rho: number of points return between on a segment
         '''
-        self.p = 1
+
+        if n <= 0:
+            raise ValueError('N must be > 0')
+
+        self.n = n
+        self.p = p
         self.t = 0.5
         self.rho = rho
         self.v = 1
+        self.dist = '1'
+
+        if latent is not None:
+            self.t = self.getT_from_coord(latent, self.p)
+            print("T:", self.t)
         
         if l is None: 
             l = [[-1,1]]*n
@@ -34,10 +44,6 @@ class HilbertExplorer:
                 print('l is not initialized')
                 self.l = [[-1,1]]*n
         
-        if n <= 0:
-            raise ValueError('N must be > 0')
-
-        self.n = n
         self.l = l
         
         #default permutation is original coordinate
@@ -78,22 +84,21 @@ class HilbertExplorer:
         self.t = t
         self.dist = self._calDistFromT(self.t)
         
-    def T_step(self, cur_p):
-        #self.t = self.t+(1/(2**(self.p+10)))
-        return (1/2**(cur_p+5))
+    # Step will modify current t
+    def step(self):
+        self.t += self.stepsize
+        return self.t
+
+    def update_stepsize(self):
+        self.stepsize = (1/2**(self.p+5))
+
     
     def _calDistFromT(self, t):
         dist = (int(t * pow(10,10)) * (2 ** (self.n * self.p) - 1)) // pow(10,10)
         dist = format(dist, 'b')
         return dist
     
-    def getCoord(self, t, p = None):
-        if p is None:
-            pass
-        else:
-            self.p = p
-        
-        self.t = t
+    def getCoord(self):
         self.dist = self._calDistFromT(self.t)
             
         # update max value
@@ -124,6 +129,7 @@ class HilbertExplorer:
         # maximum coordinate value in any dimension
         #self.max_x = 2**self.p - 1
         self.max_x = '1' * (self.p)
+        self.update_stepsize()
 
 
     def getNextCoord(self, v, t):
@@ -299,7 +305,7 @@ class HilbertExplorer:
         
         #coord1 = np.asarray(self.coord_normalization(self.coordinates_from_distance(dist1)))
         #coord2 = np.asarray(self.coord_normalization(self.coordinates_from_distance(dist2)))
-        coord1 = self.getCoord(t, self.p)
+        coord1 = self.getCoord()
         
         #next_t = (t * (2**(self.n*self.p)-1) + 2) / (2**(self.n*self.p)-1)
         #print(t)
@@ -313,6 +319,7 @@ class HilbertExplorer:
         return(coord_list)
     
     def getT_from_coord(self, coord, cur_p):
+        test_coord = [co for co in coord]
         new_coord = [int((coord_x + 1) * ((2**cur_p)-1)/2) for coord_x in coord]
         cur_dist = self._distance_from_coordinates(new_coord, cur_p)
         new_t = cur_dist / (2 ** (self.n*cur_p) - 1)

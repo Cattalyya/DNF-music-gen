@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_from_directory
+from flask import Flask, render_template, send_from_directory, jsonify
 from flask import request
 from music_gen import MusicGen
 app = Flask("__main__")
@@ -26,9 +26,13 @@ def on_change_z():
 def on_change_p():
     # TODO: handle bad value of P such as P < 0
     to_val = int(request.form["value"]);
-    print("Update: p={}".format(to_val))
-    musicgen.update_p(to_val)
-    return "TODO"
+    stepsize = musicgen.update_p(to_val)
+    print("Update: p={}, stepsize={}".format(to_val, stepsize))
+
+    data = jsonify(
+        stepsize=stepsize,
+    )
+    return data
 
 @app.route('/onchangeT', methods=["POST"])
 def on_change_t():

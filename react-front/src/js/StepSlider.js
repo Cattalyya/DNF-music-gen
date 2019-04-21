@@ -24,18 +24,21 @@ class StepSlider extends Component {
         super(props, context);
 
         this.state = {
-            latest_update: Date.now(), // prevent cached
-            step: this.props.step,
+            stepsize: this.props.stepsize,
             defaultValue: this.props.defaultValue,
             marks: this.props.marks,
         };
+
+        if (this.props.isT) {
+            window.t_slider = this;
+        }
 
     }
 
     render() {
         return <Slider min={this.props.min} 
             max={this.props.max} 
-            step={this.state.step} 
+            step={this.state.stepsize} 
             handle={showTooltip} 
             marks={this.props.marks}
             defaultValue={this.props.defaultValue}

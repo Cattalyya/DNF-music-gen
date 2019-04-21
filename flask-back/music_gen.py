@@ -23,7 +23,7 @@ TARGET_Z_32 = torch.Tensor([[ 0.4838,  0.0884,  0.5157,  0.6029,  0.1248,  0.356
           0.1564, -1.1687, -0.2117, -0.7738,  0.1762, -0.6668,  0.4435,  0.0047]]) 
 Z_DIM = 32
 
-DEFAULT_P = 1
+DEFAULT_P = 5
 
 class MusicGen:
     def __init__(self):
@@ -50,14 +50,14 @@ class MusicGen:
 
         ''' ============ Hilbert Curve ============ '''
         HILBERT_SPACE_SIDE_LENGTH = [[-1,1]] * Z_DIM
-        self.hilbert_explorer = HilbertExplorer(Z_DIM, HILBERT_SPACE_SIDE_LENGTH)
-        self.p = 1
-        # Get t from self.z, p
-        self.t = "TODO"
-        self.hilbert_step = 1
+        self.hilbert = HilbertExplorer(Z_DIM, p=DEFAULT_P, l=HILBERT_SPACE_SIDE_LENGTH, latent=self.get_z())
 
     def get_z(self):
         return np.array(self.z[0])
+
+    def set_z(self, z):
+        self.z = torch.Tensor([z])
+        self.export_image()
 
     def export_image(self):
         decoded_val = self.model.decode(self.z)
@@ -66,8 +66,10 @@ class MusicGen:
 
     # update z when self.p and self.t changed
     def update_z_from_hilbert(self):
-        # TODO: call Felicia's API to get z from p,t 
-        pass
+        new_z = self.hilbert.getCoord()
+        self.set_z(new_z)
+        print("Update Z from Hilbert {} => {}".format(self.z, new_z))
+        
 
     '''
        Functions are called by routers
@@ -77,12 +79,18 @@ class MusicGen:
         self.z[0][i] = val
         self.export_image()
 
+    # return an updated stepsize
     def update_p(self, val):
-        self.p = val
+        self.hilbert.setP(val)
+        self.update_z_from_hilbert()
+        self.export_image()
+        return self.hilbert.stepsize
+
+    def update_t(self, val):
+        self.hilbert.setT(val)
         self.update_z_from_hilbert()
         self.export_image()
 
-    def update_t(self, val):
-        self.t = val
-        self.update_z_from_hilbert()
-        self.export_image()
+
+
+

@@ -1,5 +1,8 @@
 # DNF-music-gen
-DeepNeuro Feedback Music Generator
+DeepNeuro Feedback Music Generator 
+
+## Demo
+![Demo-Apr21](imgs/demo-apr21.png)
 
 ## User Guide
 ## Setup 
@@ -30,4 +33,4 @@ DeepNeuro Feedback Music Generator
 ### TODOs
 * [ ] switch to 16d-latent-space model
 * [ ] show current value of each slider
-* [ ] make only one axis label for all sliders
+* [x] make only one axis label for all sliders
