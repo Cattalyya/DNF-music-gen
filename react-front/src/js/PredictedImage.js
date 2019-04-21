@@ -13,7 +13,9 @@ class PredictedImage extends Component {
     }
 
     render() {
-        return <img src={`${this.props.src}?${this.state.latest_update}`} alt="pianorolls" className="img-thumbnail" />;
+        return <img src={`${this.props.src}?${this.state.latest_update}`} 
+            alt="pianorolls" 
+            className="img-thumbnail" />;
     }
 
 }

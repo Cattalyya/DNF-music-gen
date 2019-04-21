@@ -1,9 +1,9 @@
 import numpy as np
 from itertools import permutations 
 
-
 class HilbertExplorer:
     
+    '''
     p = 1   # order of Hilbert Curve
     t = 0.5 # current position on the curve
     l = [[-1,1]] * 16   # side length of space
@@ -11,9 +11,9 @@ class HilbertExplorer:
     n = 16
     v = 1   # initial velocity
     dist = '1'
-    
-    
-    def __init__(self, n=16, l = None, rho = None):
+    '''
+
+    def __init__(self, n, l=None, rho=1):
         '''Intialize Hiblert tExplorer with:
         Args:
             n: Dimension of explored spapce
@@ -21,6 +21,10 @@ class HilbertExplorer:
             Size of Explored Space: [-l, l]^ N
             rho: number of points return between on a segment
         '''
+        self.p = 1
+        self.t = 0.5
+        self.rho = rho
+        self.v = 1
         
         if l is None: 
             l = [[-1,1]]*n
@@ -31,14 +35,8 @@ class HilbertExplorer:
                 print('l is not initialized')
                 self.l = [[-1,1]]*n
         
-        
         if n <= 0:
             raise ValueError('N must be > 0')
-            
-        if rho is None:
-            self.rho = 1
-        else:
-            self.rho = rho
 
         self.n = n
         self.l = l
