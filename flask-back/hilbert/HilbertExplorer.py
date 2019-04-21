@@ -1,17 +1,17 @@
 import numpy as np
 from itertools import permutations 
 
+
 class HilbertExplorer:
     
-    '''
     p = 1   # order of Hilbert Curve
     t = 0.5 # current position on the curve
     l = []   # side length of space
     v = 1   # initial velocity
     dist = '1'
-    '''
-
-    def __init__(self, n, l=None, rho=1):
+    
+    
+    def __init__(self, n, l = None, rho = None):
         '''Intialize Hiblert tExplorer with:
         Args:
             n: Dimension of explored spapce
@@ -19,10 +19,6 @@ class HilbertExplorer:
             Size of Explored Space: [-l, l]^ N
             rho: number of points return between on a segment
         '''
-        self.p = 1
-        self.t = 0.5
-        self.rho = rho
-        self.v = 1
         
         if l is None: 
             l = [[-1,1]]*n
@@ -33,8 +29,14 @@ class HilbertExplorer:
                 print('l is not initialized')
                 self.l = [[-1,1]]*n
         
+        
         if n <= 0:
             raise ValueError('N must be > 0')
+            
+        if rho is None:
+            self.rho = 1
+        else:
+            self.rho = rho
 
         self.n = n
         self.l = l
@@ -311,8 +313,14 @@ class HilbertExplorer:
 
         return(coord_list)
     
-    '''
-    def _distance_from_coordinates(self, x_in):
+    def getT_from_coord(self, coord, cur_p):
+        new_coord = [int((coord_x + 1) * ((2**cur_p)-1)/2) for coord_x in coord]
+        cur_dist = self._distance_from_coordinates(new_coord, cur_p)
+        new_t = cur_dist / (2 ** (self.n*cur_p) - 1)
+        return(new_t)
+    
+    
+    def _distance_from_coordinates(self, x_in, temp_p):
         """Return the hilbert distance for a given set of coordinates.
         Args:
             x_in (list): transpose of h
@@ -321,6 +329,7 @@ class HilbertExplorer:
             h (int): integer distance along hilbert curve
         """
         x = list(x_in)
+        '''
         if len(x) != self.n:
             raise ValueError('x={} must have N={} dimensions'.format(x, self.n))
         if any(elx > self.max_x for elx in x):
@@ -331,7 +340,9 @@ class HilbertExplorer:
             raise ValueError(
                 'invalid coordinate input x={}.  one or more dimensions have a '
                 'value less than 0'.format(x))
-        M = 1 << (self.p - 1)
+                
+        '''
+        M = 1 << (temp_p - 1)
         # Inverse undo excess work
         Q = M
         while Q > 1:
@@ -357,7 +368,7 @@ class HilbertExplorer:
             x[i] ^= t
         h = self._transpose_to_hilbert_integer(x)
         return h  
-    '''
+    
 def _binary_repr(num, width):
     """Return a binary string representation of `num` zero padded to `width`
     bits."""
