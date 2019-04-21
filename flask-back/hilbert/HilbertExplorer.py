@@ -6,9 +6,7 @@ class HilbertExplorer:
     '''
     p = 1   # order of Hilbert Curve
     t = 0.5 # current position on the curve
-    l = [[-1,1]] * 16   # side length of space
-    
-    n = 16
+    l = []   # side length of space
     v = 1   # initial velocity
     dist = '1'
     '''
@@ -52,8 +50,19 @@ class HilbertExplorer:
         #self.max_x = 2**self.p - 1
         self.max_x = '1'*(self.p)
     
-    def to_hilbert(self, cur_t, cur_p):
-    	return (self.getCoord(cur_t, cur_p))
+        
+    '''    
+    def printPerm(self):
+        permList = list(permutations(range(self.n)))
+        print(permList)
+    '''
+    
+    def setL(self, l):
+        # input a length of length l 
+        if (checkL(l, self.n)):
+            self.l = l
+        else:
+            print('l is not initialized')
     
     #input an index to get order of permutation
     def setPermIndex(self, index):
@@ -67,6 +76,10 @@ class HilbertExplorer:
     def setT(self, t):
         self.t = t
         self.dist = self._calDistFromT(self.t)
+        
+    def updateT_step(self):
+        self.t = self.t+(1/(2**(self.p+10)))
+        return (self.t)
     
     def _calDistFromT(self, t):
         dist = (int(t * pow(10,10)) * (2 ** (self.n * self.p) - 1)) // pow(10,10)
