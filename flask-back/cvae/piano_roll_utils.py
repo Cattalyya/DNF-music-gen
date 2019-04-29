@@ -5,12 +5,14 @@ import numpy as np
 from IPython.display import Image
 from IPython.core.display import Image, display
 
-
+# get numpy piano roll matrix with VELOCITY from probability matrix 
 def piano_roll_from_prob(prob_img):
-    bin_im = (prob_img>0.4).type(torch.FloatTensor)
-    return bin_im * 64.0
-#     return np.array((bin_im * 64.0).data.cpu()).astype(int)
+    VELOCITY = 64.0
+    FILTER = 0.4
+    bin_im = (prob_img>FILTER).type(torch.FloatTensor)
+    return bin_im * VELOCITY
 
+# get numpy piano roll matrix from a torch component
 def piano_roll_from_torch(torch):
     nimgs = torch.shape[0]
     curr = np.array(torch[0][0].data.cpu()).astype(int)
@@ -18,7 +20,7 @@ def piano_roll_from_torch(torch):
         curr = np.concatenate((curr, np.array(torch[i][0].data.cpu()).astype(int)), axis=1)
     return curr
 
-# by Claire - https://github.com/clairefuzzyelephant/melody-vae/blob/ac27475f72428ff92ed80e29a61badbebe1bd8da/cvae_music_p3.ipynb
+# this part is implemented by Claire - https://github.com/clairefuzzyelephant/melody-vae/blob/ac27475f72428ff92ed80e29a61badbebe1bd8da/cvae_music_p3.ipynb
 def piano_roll_to_pretty_midi(piano_roll, fs=50, program=0):
     '''Convert a Piano Roll array into a PrettyMidi object
      with a single instrument.

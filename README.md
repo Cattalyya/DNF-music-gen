@@ -16,21 +16,37 @@ DeepNeuro Feedback Music Generator
 ## External Libraries
 - [Slider](https://github.com/react-component/slider)
 
-## Useful
-### Github
-- [Ignore files in past commits](https://stackoverflow.com/questions/7527982/applying-gitignore-to-committed-files)
-    - `git ls-files -ci --exclude-standard`, `git ls-files -ci --exclude-standard -z | xargs -0 git rm --cached`
-
-
 ## Developer Guide
 ### Project Setup (Developer Only)
-- start server: `python3 server.py`
-- [setup](https://www.youtube.com/watch?v=YW8VG_U-m48&t=352s)
+- make React project
 - `npx create-react-app my-app`
 - `git add .; git commit ` before eject
 - `sudo npm run eject`
+- start server: `python3 server.py`
+
+### `flask-back/` 
+Flask backend 
+- `cvae/` = Convolutional VAE API by Cattalyya
+    - `models/` = trainned model achieved by [`CVAE-training-bin-1channel-batchnorm.ipynb`](https://github.com/clairefuzzyelephant/melody-vae/blob/master/cvae/CVAE-training-bin-1channel-batchnorm.ipynb) from [melody-vae Github Repos](https://github.com/clairefuzzyelephant/melody-vae/tree/master/)
+    - `imgs/` = predicted piano rolls
+    - `static/` = auto gen from front-end template builder
+    - `model.py` = CVAE model class
+    - `piano_roll_utils.py` = piano roll conversion utils among images, matrix, torch, numpy, midi etc.
+    - `main.py` = routers accepted connection from POST/GET requests
+ 
+- `hilbert/` = Hilbert API 
+    - `HilbertExplorer.py` = Explorer class by Felicia
+
+### `react-front`
+- `public/index.html` = index template
+- `src/`
+    - `css/`
+    - `js/` contains different react components for interactive piano roll controller and predictors
+        - `PredictedImage.js` = predicted piano roll display
+        - `StepSlider.js` = step slider component
+    - `index.js` = main render and logic of index.html
+
 
 ### TODOs
-* [ ] switch to 16d-latent-space model
 * [ ] show current value of each slider
 * [x] make only one axis label for all sliders
