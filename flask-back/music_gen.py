@@ -12,6 +12,7 @@ import cvae.utils
 import cvae.model
 from hilbert.HilbertExplorer import HilbertExplorer
 
+# Example of Z
 DEFAULT_Z_32 = torch.Tensor([[-0.2945, -0.5343, -0.3924,  0.1169, -0.1280,  0.0468, -0.1618,  0.3406, \
           0.1086, -0.4598,  0.3852, -0.9597,  0.3223, -0.2671,  0.6670,  0.1103,    \
          -0.4733, -0.0280, -0.1303,  0.2576,  0.5677,  0.5857, -0.0060, -0.2402,    \
@@ -21,10 +22,20 @@ TARGET_Z_32 = torch.Tensor([[ 0.4838,  0.0884,  0.5157,  0.6029,  0.1248,  0.356
           0.2116,  0.2503,  0.2995, -0.3852,  0.6621, -0.0425, -0.4756,  1.3305, \
          -0.2891, -0.1330, -0.5077,  0.0710, -0.0518, -0.4740, -0.0776,  0.2493, \
           0.1564, -1.1687, -0.2117, -0.7738,  0.1762, -0.6668,  0.4435,  0.0047]]) 
+
+# latent space dimension
 Z_DIM = 32
 
+# Hilbert Curve Variables
 DEFAULT_P = 5
 
+'''
+MusicGen class is a prediction API of a piano roll image
+backed with two models below. It represents 
+1. predicted image 
+2. CVAE model
+3. Hilbert model
+'''
 class MusicGen:
     def __init__(self):
         # Device configuration
@@ -52,13 +63,16 @@ class MusicGen:
         HILBERT_SPACE_SIDE_LENGTH = [[-1,1]] * Z_DIM
         self.hilbert = HilbertExplorer(Z_DIM, p=DEFAULT_P, l=HILBERT_SPACE_SIDE_LENGTH, latent=self.get_z())
 
+    # return numpy of latent space
     def get_z(self):
         return np.array(self.z[0])
 
+    # update value z and update a predicted image
     def set_z(self, z):
         self.z = torch.Tensor([z])
         self.export_image()
 
+    #  save image to self.img_filename
     def export_image(self):
         decoded_val = self.model.decode(self.z)
         pianoroll = cvae.piano_roll_utils.piano_roll_from_prob(decoded_val)
@@ -86,6 +100,7 @@ class MusicGen:
         self.export_image()
         return self.hilbert.stepsize
 
+    # update time variable of Hilbert curve and update a predicted image
     def update_t(self, val):
         self.hilbert.setT(val)
         self.update_z_from_hilbert()

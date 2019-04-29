@@ -9,10 +9,22 @@ def index():
     default_z_arr_str = list(musicgen.get_z())
     print("Default Z: ", default_z_arr_str)
     return render_template("index.html", zs=default_z_arr_str, z_dim=musicgen.z_dim)
-    
+
+# obtain static pianoroll image
 @app.route('/imgs/pianorolls/<path:path>')
 def send_imgs_pianorolls(path):
     return send_from_directory('cvae/imgs', path)
+
+
+'''
+Listener of Interactive Input 
+
+Whenever z, p, or t changes, call these POST requests to update value in musicgen
+currently music gen will update value and predict new piano roll to imgs/current.png
+
+Z is latent space vector in CVAE model
+P, T are variables of Hilbert curve model
+'''
 
 @app.route('/onchangeZ', methods=["POST"])
 def on_change_z():

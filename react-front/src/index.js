@@ -40,6 +40,8 @@ var updateStepsize = function(stepsize) {
   }
 }
 
+// request to server to update Z 
+// so that server update model and a predicted image.
 var changeZ = function(value, z_id){
     request.post(
         {
@@ -53,6 +55,9 @@ var changeZ = function(value, z_id){
 }
 
 
+// request to server to update P in hilbert model 
+// so that server update model and a predicted image.
+// When P changes, a stepsize of T also changes
 var changeP = function(value){
     request.post(
         {
@@ -62,12 +67,17 @@ var changeP = function(value){
         function(error, response, body){
             refreshImage();
             var retval = JSON.parse(body);
+
+            // When P changes, a stepsize of T also changes
+            // so we need to update stepsize on slider to reflect this change
             updateStepsize(retval.stepsize); 
             refreshImage();
         }
     );
 }
 
+// request to server to update T in hilbert model 
+// so that server update model and a predicted image.
 var changeT = function(value){
     request.post(
         {
@@ -79,22 +89,6 @@ var changeT = function(value){
         }
     );
 }
-
-
-const showTooltip = (props) => {
-  const { value, dragging, index, ...restProps } = props;
-  return (
-    <Tooltip
-      prefixCls="rc-slider-tooltip"
-      overlay={value}
-      visible={dragging}
-      placement="top"
-      key={index}
-    >
-      <Handle value={value} {...restProps} />
-    </Tooltip>
-  );
-};
 
 ReactDOM.render(
   <PredictedImage src="imgs/pianorolls/current.png" />,
@@ -135,7 +129,6 @@ ReactDOM.render(
       <div className="spacediv"></div>
       <StepSlider stepsize={0.1} 
           isT={true}
-          // initStepsize={() => changeP(HILBERT_DEFAULT_P)}
           stepsize={DEFAULT_STEPSIZE_P5}
           min={0}
           max={1}
@@ -146,8 +139,6 @@ ReactDOM.render(
   </div>,
   document.getElementById('hilbert-curve-sliders')
 );
-
-
 
 
 // If you want your app to work offline and load faster, you can change

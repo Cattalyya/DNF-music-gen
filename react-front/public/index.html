@@ -45,9 +45,9 @@
   </div>
   <script>
         const zs = "{{zs}}";
-        console.log("Zs:", zs);
+        // zs from server are sent to template in string format rather than object
+        // so we need to parse it manually
         window.zs = zs.substring(1, zs.length-1).split(",").map(parseFloat);
-        console.log(window.zs);
   </script>
 
 </body>

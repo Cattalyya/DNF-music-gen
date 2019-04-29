@@ -3,6 +3,7 @@ import Slider from 'rc-slider';
 import Tooltip from 'rc-tooltip';
 const Handle = Slider.Handle;
 
+// tooltip of value when drag a slider circle
 const showTooltip = (props) => {
     const { value, dragging, index, ...restProps } = props;
     return (
@@ -17,6 +18,7 @@ const showTooltip = (props) => {
         </Tooltip>
     );
 };
+
 
 class StepSlider extends Component {
 
