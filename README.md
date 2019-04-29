@@ -37,7 +37,7 @@ Flask backend
 - `hilbert/` = Hilbert API 
     - `HilbertExplorer.py` = Explorer class by Felicia
 
-### `react-front`
+### `react-front/`
 - `public/index.html` = index template
 - `src/`
     - `css/`

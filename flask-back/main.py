@@ -32,11 +32,12 @@ def on_change_z():
     z_id = int(request.form["z_id"])
     print("Update: z[{}]={}".format(z_id, to_val))
     musicgen.update_z_i(z_id, to_val)
-    return "TODO"
+
+    return jsonify()
 
 @app.route('/onchangeP', methods=["POST"])
 def on_change_p():
-    # TODO: handle bad value of P such as P < 0
+    # Suggested TODO: handle bad value of P such as P < 0
     to_val = int(request.form["value"]);
     stepsize = musicgen.update_p(to_val)
     print("Update: p={}, stepsize={}".format(to_val, stepsize))
@@ -48,11 +49,11 @@ def on_change_p():
 
 @app.route('/onchangeT', methods=["POST"])
 def on_change_t():
-    # TODO: handle bad value of T
+    # Suggested TODO: handle bad value of T
     to_val = float(request.form["value"]);
     print("Update: t={}".format(to_val))
     musicgen.update_t(to_val)
-    return "TODO"
+    return jsonify()
 
 
 app.run(debug=True)
