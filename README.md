@@ -13,9 +13,6 @@ DeepNeuro Feedback Music Generator
     - `python3 main.py` 
     - then access from browser via `http://127.0.0.1:5000/`
 
-## External Libraries
-- [Slider](https://github.com/react-component/slider)
-
 ## Developer Guide
 ### Project Setup (Developer Only)
 - make React project
@@ -46,6 +43,8 @@ Flask backend
         - `StepSlider.js` = step slider component
     - `index.js` = main render and logic of index.html
 
+### External Libraries
+- [Slider](https://github.com/react-component/slider)
 
 ### TODOs
 * [ ] show current value of each slider
